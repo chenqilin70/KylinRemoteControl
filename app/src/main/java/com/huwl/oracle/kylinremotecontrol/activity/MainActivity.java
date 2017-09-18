@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.huwl.oracle.kylinremotecontrol.R;
+
+import java.io.IOException;
+import java.net.Socket;
 
 public class MainActivity extends Activity {
     private Animation animation;
@@ -17,6 +21,11 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initUI();
+
+    }
+
+    private void initUI() {
         animation=AnimationUtils.loadAnimation(this,R.anim.anim);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -32,7 +41,5 @@ public class MainActivity extends Activity {
         });
         text_icon=findViewById(R.id.text_icon);
         text_icon.setAnimation(animation);
-
-
     }
 }

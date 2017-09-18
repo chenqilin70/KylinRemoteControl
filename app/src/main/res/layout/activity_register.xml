@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/colorBack">
+    android:background="@color/colorBack"
+    android:fitsSystemWindows="true">
 
 
     <ImageView
@@ -24,7 +25,7 @@
             style="@style/login_icon"
             android:src="@drawable/usericon"/>
         <EditText
-            android:id="@+id/username_et"
+            android:id="@+id/register_username_et"
             style="@style/login_et"
             android:hint="请输入用户名"
             android:inputType="textPersonName"/>
@@ -51,7 +52,7 @@
             android:src="@drawable/pwdicon"
             />
         <EditText
-            android:id="@+id/password_et"
+            android:id="@+id/register_password_et"
             android:hint="请输入密码"
             style="@style/login_et"
             android:inputType="textPassword"
@@ -65,12 +66,11 @@
         android:layout_gravity="center"
         android:layout_marginTop="8dp"/>
     <RelativeLayout
-        android:id="@+id/loginBtn_lay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
         <ImageView
-            android:id="@+id/loginBtn"
+            android:id="@+id/registerBtn"
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:src="@drawable/login_btn_unable"
@@ -79,25 +79,25 @@
             android:layout_marginTop="20dp"
             />
         <TextView
-            android:id="@+id/login_text"
+            android:id="@+id/register_text"
             android:layout_width="300dp"
             android:layout_height="50dp"
-            android:text="登  录"
+            android:text="注  册"
             android:textColor="@color/text_white"
             android:textSize="25sp"
-            android:layout_alignTop="@+id/loginBtn"
+            android:layout_alignTop="@+id/registerBtn"
             android:gravity="center"
             />
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/goToRegister"
+        android:id="@+id/returnToLogin"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:layout_marginTop="8dp"
         android:textSize="16sp"
-        android:text="去注册账号 &gt;"
+        android:text="&lt; 已有账号，去登录"
         android:layout_gravity="center"
         android:gravity="center"
 

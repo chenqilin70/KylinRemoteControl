@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBack"
+    android:fitsSystemWindows="true">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:orientation="vertical"
+        android:background="@drawable/buttom_line"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:layout_gravity="center"
+            android:src="@drawable/faint_shadow"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        >
+        <ImageView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:padding="10dp"
+            android:src="@drawable/close_icon"
+            android:background="@drawable/option_btn_rb_line"/>
+
+        <ImageView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:padding="10dp"
+            android:src="@drawable/cut_screen_icon"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+        <ImageView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:padding="10dp"
+            android:src="@drawable/video_icon"/>
+
+        <ImageView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:padding="10dp"
+            android:src="@drawable/flod_icon"
+            android:background="@drawable/option_btn_lt_line"/>
+
+    </LinearLayout>
+
+</LinearLayout>
