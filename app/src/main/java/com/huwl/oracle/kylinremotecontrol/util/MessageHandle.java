@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.huwl.oracle.kylinremotecontrol.activity.LoginActivity;
 import com.huwl.oracle.kylinremotecontrol.activity.OptionActivity;
+import com.huwl.oracle.kylinremotecontrol.activity.RegisterActivity;
 import com.huwl.oracle.kylinremotecontrol.beans.NetMessage;
 
 import java.io.IOException;
@@ -17,8 +18,8 @@ import java.net.Socket;
  */
 
 public class MessageHandle {
-    private static final String IP="221.235.208.105";
-    private static final Integer PORT=5554;
+    private static final String IP="116.208.48.237";
+    private static final Integer PORT=5544;
     public static Socket server;
 
     static {
@@ -41,7 +42,8 @@ public class MessageHandle {
                                 public void run() {
                                     if(flag){
                                         activity.startActivity(new Intent(activity,OptionActivity.class));
-                                        Toast.makeText(activity,"登录成功",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(activity,"登录成功" +
+                                                "",Toast.LENGTH_SHORT).show();
                                         activity.finish();
                                     }else{
                                         Toast.makeText(activity,"用户名或密码错误",Toast.LENGTH_SHORT).show();
@@ -52,6 +54,28 @@ public class MessageHandle {
                                     }
                                 }
                             });
+                        }else if(m.getForWhat()== NetMessage.REGISTER){
+                            final boolean flag=(Boolean)m.getMap().get("isRegister");
+                                activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    RegisterActivity ra=((RegisterActivity)activity);
+                                    if(flag){
+                                        String username=ra.getRegister_username_et().getText().toString();
+                                        String password=ra.getRegister_password_et().getText().toString();
+                                        Intent intent=new Intent();
+                                        intent.putExtra("username",username).putExtra("password",password);
+                                        activity.setResult(1,intent);
+                                        activity.finish();
+                                    }else{
+                                        Toast.makeText(activity,"该用户名已被使用",Toast.LENGTH_SHORT).show();
+                                        ra.getRegister_username_et().setEnabled(true);
+                                        ra.getRegister_password_et().setEnabled(true);
+                                    }
+
+                                }
+                            });
+
                         }
                 } catch (IOException e) {
                     e.printStackTrace();

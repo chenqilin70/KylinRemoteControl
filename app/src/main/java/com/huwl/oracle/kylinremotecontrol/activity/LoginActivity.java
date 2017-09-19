@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -58,13 +59,23 @@ public class LoginActivity extends Activity implements TextWatcher, View.OnClick
         goToRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+                startActivityForResult(new Intent(LoginActivity.this,RegisterActivity.class),1);
             }
         });
         BarUtils.setWindowBarColor(this,R.color.colorBack,BarUtils.ALL);
         loginBtn_lay.setOnClickListener(this);
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.e("test", "onActivityResult"+"requestCode"+requestCode+"\n resultCode="+resultCode);
+        if(requestCode==1  && resultCode==1){
+            Bundle  bundle=data.getExtras();
+            username_et.setText(bundle.get("username").toString());
+            password_et.setText(bundle.get("password").toString());
+        }
 
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
