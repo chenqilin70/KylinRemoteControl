@@ -114,6 +114,7 @@ public class LoginActivity extends Activity implements TextWatcher, View.OnClick
                 NetMessage m=new NetMessage();
                 m.setUser(new User(username,pwd));
                 m.setForWhat(NetMessage.LOGIN);
+                m.getMap().put("terminal",MainActivity.terminal);
 
                 runOnUiThread(new Runnable() {
                     @Override

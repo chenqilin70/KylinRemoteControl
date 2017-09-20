@@ -1,7 +1,5 @@
 package com.huwl.oracle.kylinremotecontrol.beans;
 
-import android.os.Message;
-
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -9,8 +7,9 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NetMessage implements Serializable {
-	public static final int LOGIN=0,REGISTER=1;
+public class NetMessage implements Serializable{
+	public static final int LOGIN=0,REGISTER=1,REQUEST_QR_CODE=3
+			,PROVIDE_QR_CODE=4,VALIDATE_LOGIN=5;
 	private int forWhat;
 	private User user;
 	private Map map=new HashMap();;
@@ -45,6 +44,7 @@ public class NetMessage implements Serializable {
 			try {
 				ObjectOutputStream out=new ObjectOutputStream(socket.getOutputStream());
 				out.writeObject(this);
+				out.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

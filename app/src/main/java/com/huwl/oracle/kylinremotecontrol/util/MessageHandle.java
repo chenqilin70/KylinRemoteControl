@@ -18,7 +18,7 @@ import java.net.Socket;
  */
 
 public class MessageHandle {
-    private static final String IP="116.208.48.237";
+    private static final String IP="27.22.95.52";
     private static final Integer PORT=5544;
     public static Socket server;
 
