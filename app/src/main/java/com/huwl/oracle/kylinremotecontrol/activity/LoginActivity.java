@@ -46,6 +46,7 @@ public class LoginActivity extends Activity implements TextWatcher, View.OnClick
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        addToContainer();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         username_et=findViewById(R.id.username_et);
@@ -64,6 +65,14 @@ public class LoginActivity extends Activity implements TextWatcher, View.OnClick
         });
         BarUtils.setWindowBarColor(this,R.color.colorBack,BarUtils.ALL);
         loginBtn_lay.setOnClickListener(this);
+    }
+    private void addToContainer() {
+        new Thread(){
+            @Override
+            public void run() {
+                MessageHandle.getActivities().put(LoginActivity.class,LoginActivity.this);
+            }
+        }.start();
     }
 
     @Override
@@ -124,11 +133,7 @@ public class LoginActivity extends Activity implements TextWatcher, View.OnClick
                         unableLoginBtn();
                     }
                 });
-
-                MessageHandle mh=new MessageHandle();
-                mh.listenOne(LoginActivity.this);
                 m.send(MessageHandle.getServer());
-
             }
         }.start();
 

@@ -15,7 +15,10 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.huwl.oracle.kylinremotecontrol.R;
+import com.huwl.oracle.kylinremotecontrol.beans.NetMessage;
 import com.huwl.oracle.kylinremotecontrol.beans.Terminal;
+import com.huwl.oracle.kylinremotecontrol.beans.User;
+import com.huwl.oracle.kylinremotecontrol.util.MessageHandle;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -28,11 +31,46 @@ public class MainActivity extends Activity {
     public static Terminal terminal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        addToContainer();
+        initTerminal();
+        autoLogin();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initUI();
-        initTerminal();
 
+
+    }
+
+    private void addToContainer() {
+        new Thread(){
+            @Override
+            public void run() {
+                MessageHandle.getActivities().put(MainActivity.class,MainActivity.this);
+                MessageHandle.listen();
+            }
+        }.start();
+    }
+
+    private void autoLogin() {
+        /*if(terminal.getUser()!=null){
+            new Thread(){
+                @Override
+                public void run() {
+                    NetMessage m=new NetMessage();
+                    m.setUser(terminal.getUser());
+                    m.setForWhat(NetMessage.LOGIN);
+                    m.getMap().put("terminal",terminal);
+                    m.send(MessageHandle.getServer());
+                }
+            }.start();
+            startActivity(new Intent(this,OptionActivity.class));
+        }*/
+        Log.e("test",""+(terminal.getUser()==null));
+        if(terminal.getUser()!=null){//已经登陆
+            Intent intent=new Intent(this,LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void initTerminal() {
@@ -40,12 +78,15 @@ public class MainActivity extends Activity {
         String result=sharedPreferences.getString("terminal",null);
         Gson gson=new Gson();
         if(result==null){
+            Log.e("test","preferences中没有terminal");
             SharedPreferences.Editor editor=sharedPreferences.edit();
             Terminal t=new Terminal(UUID.randomUUID().toString(),Build.BRAND, "Android"+Build.VERSION.RELEASE);
             result=gson.toJson(t);
             editor.putString("terminal",result);
             editor.commit();
 
+        }else{
+            Log.e("test","preferences中有terminal"+result);
         }
         terminal=gson.fromJson(result,Terminal.class);
     }
@@ -66,5 +107,9 @@ public class MainActivity extends Activity {
         });
         text_icon=findViewById(R.id.text_icon);
         text_icon.setAnimation(animation);
+    }
+
+    public static Terminal getTerminal() {
+        return terminal;
     }
 }

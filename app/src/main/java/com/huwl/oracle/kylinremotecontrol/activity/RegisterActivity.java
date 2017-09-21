@@ -46,6 +46,7 @@ public class RegisterActivity extends Activity implements TextWatcher, View.OnCl
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        addToContainer();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         register_username_et=findViewById(R.id.register_username_et);
@@ -64,6 +65,15 @@ public class RegisterActivity extends Activity implements TextWatcher, View.OnCl
         });
         BarUtils.setWindowBarColor(this,R.color.colorBack,BarUtils.ALL);
 
+    }
+
+    private void addToContainer() {
+        new Thread(){
+            @Override
+            public void run() {
+                MessageHandle.getActivities().put(RegisterActivity.class,RegisterActivity.this);
+            }
+        }.start();
     }
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -120,9 +130,6 @@ public class RegisterActivity extends Activity implements TextWatcher, View.OnCl
                         unableLoginBtn();
                     }
                 });
-
-                MessageHandle mh=new MessageHandle();
-                mh.listenOne(RegisterActivity.this);
                 m.send(MessageHandle.getServer());
 
             }
