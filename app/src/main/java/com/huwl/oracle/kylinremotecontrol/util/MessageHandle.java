@@ -26,7 +26,7 @@ import java.util.Map;
  */
 
 public class MessageHandle {
-    private static final String IP="27.29.145.7";
+    private static final String IP="27.22.160.39";
     private static final Integer PORT=5544;
     public static Socket server;
     public static Map<Class,Activity> activities=new HashMap<>();
@@ -42,9 +42,21 @@ public class MessageHandle {
         new Thread(){
             @Override
             public void run() {
-                try {
                     while(true){
-                        final NetMessage m= (NetMessage) new ObjectInputStream(server.getInputStream()).readObject();
+                        NetMessage temp=null;
+                        ObjectInputStream oin=null;
+                        try {
+                            oin=new ObjectInputStream(server.getInputStream());
+                            Log.e("test","--------------------");
+                            temp = (NetMessage)oin.readObject();
+                            Log.e("test","++++++++++++++++++++");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Log.e("test","输入流错误重来");
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        final NetMessage m=temp;
                         new Thread(){
                             @Override
                             public void run() {
@@ -52,20 +64,35 @@ public class MessageHandle {
                                     handleLogin(m);
                                 }else if(m.getForWhat()== NetMessage.REGISTER){
                                     handleRegister(m);
+                                }else if(m.getForWhat()==NetMessage.AUTO_LOGIN){
+                                    handleAutoLogin(m);
                                 }
                             }
                         }.start();
 
 
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
             }
         }.start();
     }
+
+    public static void handleAutoLogin(final NetMessage m){
+        MainActivity ma= (MainActivity) activities.get(MainActivity.class);
+        SharedPreferences preferences=ma.getSharedPreferences("kylin_control",Context.MODE_PRIVATE);
+        SharedPreferences.Editor e=preferences.edit();
+        if(!((Boolean)m.getMap().get("isLogin"))){
+            MainActivity.getTerminal().setUser(null);
+            ma.startActivity(new Intent(ma,LoginActivity.class));
+        }else{//登录成功了
+            MainActivity.getTerminal().setUser(m.getUser());
+            ma.startActivity(new Intent(ma,OptionActivity.class));
+        }
+        e.putString("terminal",new Gson().toJson(MainActivity.getTerminal()));
+        e.commit();
+        ma.finish();
+        Log.e("test","test oa.finish()-->"+ma.isDestroyed());
+    }
+
     public static void handleRegister(final NetMessage m){
         final RegisterActivity ra= (RegisterActivity) activities.get(RegisterActivity.class);
         final boolean flag=(Boolean)m.getMap().get("isRegister");
@@ -102,6 +129,7 @@ public class MessageHandle {
                     Gson gson=new Gson();
                     MainActivity.getTerminal().setUser(m.getUser());
                     editor.putString("terminal",gson.toJson(MainActivity.getTerminal()));
+                    editor.commit();
                     la.finish();
                 }else{
                     Toast.makeText(la,"用户名或密码错误",Toast.LENGTH_SHORT).show();

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.WindowManager;
 
 import com.huwl.oracle.kylinremotecontrol.R;
@@ -21,4 +23,16 @@ public class OptionActivity extends Activity {
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
     }
+
+
+
+
+    @Override
+    protected void onDestroy() {
+        Log.e("test","onDestroy is running……");
+        super.onDestroy();
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+
 }

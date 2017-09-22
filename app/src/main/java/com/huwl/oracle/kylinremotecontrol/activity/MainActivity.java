@@ -33,10 +33,9 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         addToContainer();
         initTerminal();
-        autoLogin();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initUI();
+        autoLogin();
 
 
     }
@@ -46,30 +45,26 @@ public class MainActivity extends Activity {
             @Override
             public void run() {
                 MessageHandle.getActivities().put(MainActivity.class,MainActivity.this);
-                MessageHandle.listen();
+
             }
         }.start();
     }
 
     private void autoLogin() {
-        /*if(terminal.getUser()!=null){
+        MessageHandle.listen();
+        if(terminal.getUser()!=null){
             new Thread(){
                 @Override
                 public void run() {
                     NetMessage m=new NetMessage();
                     m.setUser(terminal.getUser());
-                    m.setForWhat(NetMessage.LOGIN);
+                    m.setForWhat(NetMessage.AUTO_LOGIN);
                     m.getMap().put("terminal",terminal);
                     m.send(MessageHandle.getServer());
                 }
             }.start();
-            startActivity(new Intent(this,OptionActivity.class));
-        }*/
-        Log.e("test",""+(terminal.getUser()==null));
-        if(terminal.getUser()!=null){//已经登陆
-            Intent intent=new Intent(this,LoginActivity.class);
-            startActivity(intent);
-            finish();
+        }else{
+            initUI();
         }
     }
 
@@ -85,8 +80,6 @@ public class MainActivity extends Activity {
             editor.putString("terminal",result);
             editor.commit();
 
-        }else{
-            Log.e("test","preferences中有terminal"+result);
         }
         terminal=gson.fromJson(result,Terminal.class);
     }
