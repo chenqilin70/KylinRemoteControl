@@ -27,8 +27,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile files('libs/systembartint-1.0.4.jar')
+    compile files('libs/gson-2.8.1.jar')
+    compile files('libs/core-3.3.0.jar')
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
-    compile files('libs/gson-2.8.1.jar')
 }

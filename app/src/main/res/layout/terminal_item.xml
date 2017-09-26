@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/colorBack">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/windows" />
+
+    <TextView
+        android:id="@+id/terminalNameTV"
+        android:layout_width="0dp"
+        android:layout_weight="3.25"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:textColor="@color/text_white"
+        android:text="TextView" />
+    <TextView
+        android:id="@+id/terminalTypeTV"
+        android:layout_width="0dp"
+        android:layout_weight="3.25"
+        android:layout_height="match_parent"
+        android:textColor="@color/text_white"
+        android:gravity="center_vertical"
+        android:text="TextView" />
+
+    <ImageView
+        android:id="@+id/radioImg"
+        android:layout_gravity="center"
+        android:layout_width="0dp"
+        android:layout_weight="1.5"
+        android:src="@drawable/radio_unselect"
+        android:layout_height="25dp"/>
+</LinearLayout>

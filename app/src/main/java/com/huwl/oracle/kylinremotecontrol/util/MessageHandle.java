@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.huwl.oracle.kylinremotecontrol.activity.LoginActivity;
 import com.huwl.oracle.kylinremotecontrol.activity.MainActivity;
 import com.huwl.oracle.kylinremotecontrol.activity.OptionActivity;
@@ -17,19 +19,23 @@ import com.huwl.oracle.kylinremotecontrol.beans.Terminal;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.lang.reflect.Type;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by aierxuan on 2017/9/18.
  */
 
 public class MessageHandle {
-    private static final String IP="27.22.160.39";
+    private static final String IP="120.24.244.103";
     private static final Integer PORT=5544;
     public static Socket server;
     public static Map<Class,Activity> activities=new HashMap<>();
+    public static final Gson GSON=new Gson();
 
     static {
         try {
@@ -85,9 +91,15 @@ public class MessageHandle {
             ma.startActivity(new Intent(ma,LoginActivity.class));
         }else{//登录成功了
             MainActivity.getTerminal().setUser(m.getUser());
-            ma.startActivity(new Intent(ma,OptionActivity.class));
+            Intent intent=new Intent(ma,OptionActivity.class);
+            Bundle bundle=new Bundle();
+            Set<Terminal> set= (Set<Terminal>) m.getMap().get("otherTerminal");
+            Type founderSetType = new TypeToken<HashSet<Terminal>>(){}.getType();
+            bundle.putString("otherTerminal",GSON.toJson(set,founderSetType));
+            intent.putExtras(bundle);
+            ma.startActivity(intent);
         }
-        e.putString("terminal",new Gson().toJson(MainActivity.getTerminal()));
+        e.putString("terminal",GSON.toJson(MainActivity.getTerminal()));
         e.commit();
         ma.finish();
         Log.e("test","test oa.finish()-->"+ma.isDestroyed());
@@ -121,14 +133,20 @@ public class MessageHandle {
             @Override
             public void run() {
                 if(flag){
-                    la.startActivity(new Intent(la,OptionActivity.class));
+                    Intent intent=new Intent(la,OptionActivity.class);
+                    Bundle bundle=new Bundle();
+                    Set<Terminal> set= (Set<Terminal>) m.getMap().get("otherTerminal");
+                    Type founderSetType = new TypeToken<HashSet<Terminal>>(){}.getType();
+                    bundle.putString("otherTerminal",GSON.toJson(set,founderSetType));
+                    intent.putExtras(bundle);
+                    la.startActivity(intent);
+
                     Toast.makeText(la,"登录成功" +
                             "",Toast.LENGTH_SHORT).show();
                     SharedPreferences sharedPreferences=la.getSharedPreferences("kylin_control", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor=sharedPreferences.edit();
-                    Gson gson=new Gson();
                     MainActivity.getTerminal().setUser(m.getUser());
-                    editor.putString("terminal",gson.toJson(MainActivity.getTerminal()));
+                    editor.putString("terminal",GSON.toJson(MainActivity.getTerminal()));
                     editor.commit();
                     la.finish();
                 }else{

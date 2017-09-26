@@ -5,24 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.huwl.oracle.kylinremotecontrol.R;
 import com.huwl.oracle.kylinremotecontrol.beans.NetMessage;
 import com.huwl.oracle.kylinremotecontrol.beans.Terminal;
-import com.huwl.oracle.kylinremotecontrol.beans.User;
 import com.huwl.oracle.kylinremotecontrol.util.MessageHandle;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
 import java.util.UUID;
 
 public class MainActivity extends Activity {
@@ -71,17 +64,16 @@ public class MainActivity extends Activity {
     private void initTerminal() {
         SharedPreferences sharedPreferences = getSharedPreferences("kylin_control", Context.MODE_PRIVATE); //私有数据
         String result=sharedPreferences.getString("terminal",null);
-        Gson gson=new Gson();
         if(result==null){
             Log.e("test","preferences中没有terminal");
             SharedPreferences.Editor editor=sharedPreferences.edit();
             Terminal t=new Terminal(UUID.randomUUID().toString(),Build.BRAND, "Android"+Build.VERSION.RELEASE);
-            result=gson.toJson(t);
+            result=MessageHandle.GSON.toJson(t);
             editor.putString("terminal",result);
             editor.commit();
 
         }
-        terminal=gson.fromJson(result,Terminal.class);
+        terminal=MessageHandle.GSON.fromJson(result,Terminal.class);
     }
 
     private void initUI() {

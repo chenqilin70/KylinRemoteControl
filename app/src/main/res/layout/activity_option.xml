@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -7,25 +8,54 @@
     android:fitsSystemWindows="true">
 
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/noTerminalRL"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="6"
         android:orientation="vertical"
-        android:background="@drawable/buttom_line"
         >
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:src="@drawable/faint_shadow"/>
-    </LinearLayout>
+            android:src="@drawable/faint_shadow"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:id="@+id/scanIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/scan"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+    <ListView
+        android:id="@+id/terminalsLV"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5.9"
+        android:orientation="vertical">
+
+    </ListView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:background="@color/deepBlack"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
+
         >
         <ImageView
             android:layout_height="wrap_content"
@@ -48,12 +78,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2">
+
         <ImageView
-            android:layout_height="wrap_content"
+            android:id="@+id/imageView3"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="5"
             android:padding="10dp"
-            android:src="@drawable/video_icon"/>
+            android:src="@drawable/video_icon" />
 
         <ImageView
             android:layout_height="wrap_content"
