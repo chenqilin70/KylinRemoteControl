@@ -23,6 +23,7 @@ import java.lang.reflect.Type;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -72,6 +73,8 @@ public class MessageHandle {
                                     handleRegister(m);
                                 }else if(m.getForWhat()==NetMessage.AUTO_LOGIN){
                                     handleAutoLogin(m);
+                                }else if(m.getForWhat()==NetMessage.ADD_CONTROLLABLE_TER){
+                                    handleAddControllableTer(m);
                                 }
                             }
                         }.start();
@@ -81,7 +84,16 @@ public class MessageHandle {
             }
         }.start();
     }
+    public static void handleAddControllableTer(final NetMessage m){
+        Terminal t= (Terminal) m.getMap().get("terminal");
+        OptionActivity oa= (OptionActivity) activities.get(OptionActivity.class);
+        Set<Terminal> ts= (Set<Terminal>) m.getMap().get("otherTerminal");
+        List<Map<String,Object>> list=oa.getListItem();
+        for(Terminal tempTer:ts){
 
+
+        }
+    }
     public static void handleAutoLogin(final NetMessage m){
         MainActivity ma= (MainActivity) activities.get(MainActivity.class);
         SharedPreferences preferences=ma.getSharedPreferences("kylin_control",Context.MODE_PRIVATE);
